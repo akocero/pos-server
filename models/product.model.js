@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const itemSchema = new Schema(
+const productSchema = new Schema(
 	{
+		// General info
 		name: {
 			type: String,
 			required: [true, 'Name is required'],
@@ -13,20 +14,33 @@ const itemSchema = new Schema(
 		description: {
 			type: String,
 		},
-		purchaseNote: {
-			type: String,
+		isPublished: {
+			type: Number,
+			default: 0,
 		},
-		unitCost: {
+		is_deleted: {
+			type: Number,
+			default: 0,
+		},
+
+		// Pricing
+		cost: {
 			type: Number,
 			required: [true, 'Unit Cost is required'],
+		},
+		price: {
+			type: Number,
 		},
 		salePrice: {
 			type: Number,
 		},
-		actualCost: {
+
+		// Inventory
+		stock: {
 			type: Number,
+			default: 0,
 		},
-		quantity: {
+		lowStock: {
 			type: Number,
 			default: 0,
 		},
@@ -37,23 +51,17 @@ const itemSchema = new Schema(
 		sku: {
 			type: String,
 		},
-		images: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Image',
-			},
-		],
+		barcode: {
+			type: String,
+		},
+
 		coverPhoto: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
 				ref: 'Image',
 			},
 		],
-
-		fileDownloadLink: {
-			type: String,
-		},
-		// TODO: Need to improve this category and tags
+		// Categorization
 		tags: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
@@ -72,12 +80,8 @@ const itemSchema = new Schema(
 				ref: 'Category',
 			},
 		],
-		isPublished: {
-			type: Number,
-			default: 0,
-		},
 	},
 	{ timestamps: true },
 );
 
-module.exports = mongoose.model('item', itemSchema);
+module.exports = mongoose.model('Product', productSchema);

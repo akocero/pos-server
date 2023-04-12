@@ -1,6 +1,4 @@
 const Image = require('../models/image.model.js');
-const EcommSetting = require('../models/ecomm_setting.model.js');
-const Item = require('../models/item.model.js');
 const factory = require('../utils/contollersFactory.js');
 const cloudinary = require('../utils/cloudinary.js');
 const { catchUnknownError } = require('../middlewares/catchUnknownError.js');
@@ -16,47 +14,47 @@ const destroy = catchUnknownError(async (req, res, next) => {
 		return next(new AppError(`No document found with this ${id} ID`, 404));
 	}
 
-	const ecomSet = await EcommSetting.updateMany(
-		{},
-		{
-			$pull: {
-				navbarBGs: id,
-				heros: id,
-			},
-		},
-	);
+	// const ecomSet = await EcommSetting.updateMany(
+	// 	{},
+	// 	{
+	// 		$pull: {
+	// 			navbarBGs: id,
+	// 			heros: id,
+	// 		},
+	// 	},
+	// );
 
-	const item = await Item.updateMany(
-		{},
-		{
-			$pull: {
-				images: id,
-				coverPhoto: id,
-			},
-		},
-	);
+	// const item = await Item.updateMany(
+	// 	{},
+	// 	{
+	// 		$pull: {
+	// 			images: id,
+	// 			coverPhoto: id,
+	// 		},
+	// 	},
+	// );
 
-	await EcommSetting.updateOne(
-		{
-			activeHero: id,
-		},
-		{
-			$unset: {
-				activeHero: '',
-			},
-		},
-	);
+	// await EcommSetting.updateOne(
+	// 	{
+	// 		activeHero: id,
+	// 	},
+	// 	{
+	// 		$unset: {
+	// 			activeHero: '',
+	// 		},
+	// 	},
+	// );
 
-	await EcommSetting.updateOne(
-		{
-			activeNavbarBG: id,
-		},
-		{
-			$unset: {
-				activeNavbarBG: '',
-			},
-		},
-	);
+	// await EcommSetting.updateOne(
+	// 	{
+	// 		activeNavbarBG: id,
+	// 	},
+	// 	{
+	// 		$unset: {
+	// 			activeNavbarBG: '',
+	// 		},
+	// 	},
+	// );
 
 	await cloudinary.uploader.destroy(doc.public_id);
 
